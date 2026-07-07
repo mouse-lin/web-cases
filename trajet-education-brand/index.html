@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>轨迹 TRAJET — 全球升学与教育战略顾问</title>
+<meta name="description" content="轨迹 TRAJET 是一家专注顶尖学府申请的教育战略顾问机构。用真实录取数据与个体叙事，为每一位申请者设计属于自己的升学路径。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS — Obsidian Ink + Brass. One accent, locked page-wide.
+   ============================================================ */
+:root{
+  --bg:        #F8F6F2;   /* Ivory — default theme is the light "editorial" register */
+  --surface:   #F1EDE4;   /* one step down from bg */
+  --surface2:  #E9E2D4;   /* card surface */
+  --ink:       #211C16;   /* near-black, never pure black */
+  --muted:     #6E6459;   /* secondary text */
+  --dim:       #D9D0BF;   /* hairlines / tertiary */
+  --accent:    #A8331F;   /* Rust — the accent, owns the whole page */
+  --accent-hi: #C4472F;   /* brighter rust for glow/hover */
+  --border:    rgba(33,28,22,.09);
+  --on-accent: #F8F6F2;   /* text color placed ON TOP of --accent; flips per theme */
+  --border-a:  rgba(168,51,31,.28);
+}
+
+*,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:'Hanken Grotesk', system-ui, sans-serif; font-weight:300;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  font-size:16px; line-height:1.6;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+.content{ position:relative; z-index:5; }
+::selection{ background:var(--accent); color:var(--on-accent); }
+
+/* grain — mandatory premium substrate layer */
+body::before{
+  content:''; position:fixed; inset:0; z-index:1; pointer-events:none;
+  opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.mono{ font-family:'JetBrains Mono', monospace; }
+.wrap{ max-width:1240px; margin:0 auto; padding-left:clamp(24px,5vw,64px); padding-right:clamp(24px,5vw,64px); }
+
+h1,h2,h3{ font-family:'Petrona', serif; font-weight:600; letter-spacing:-.02em; }
+
+.eyebrow{
+  font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--accent); display:inline-block; margin-bottom:18px;
+}
+
+.btn{
+  display:inline-flex; align-items:center; gap:10px; padding:15px 30px;
+  border-radius:999px; font-family:'Hanken Grotesk',sans-serif; font-size:15px; font-weight:600;
+  transition:transform .5s cubic-bezier(.16,1,.3,1), background .3s, border-color .3s;
+}
+.btn-primary{ background:var(--accent); color:var(--on-accent); }
+.btn-primary:hover{ transform:scale(1.04); background:var(--accent-hi); }
+.btn-ghost{ border:1px solid var(--border); color:var(--ink); }
+.btn-ghost:hover{ border-color:var(--border-a); transform:scale(1.04); }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+nav{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:22px clamp(24px,5vw,64px);
+  transition:background .4s, backdrop-filter .4s, border-color .4s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{ background:color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter:blur(10px); border-color:var(--border); }
+.logo{ font-family:'Petrona',serif; font-weight:600; font-size:19px; letter-spacing:-.01em; }
+.logo em{ font-style:normal; color:var(--accent); }
+.nav-links{ display:flex; align-items:center; gap:38px; }
+.nav-links a:not(.btn){ font-size:14px; color:var(--muted); transition:color .3s; }
+.nav-links a:not(.btn):hover{ color:var(--ink); }
+.nav-toggle{ display:none; }
+@media (max-width:860px){
+  .nav-links a:not(.btn){ display:none; }
+  .nav-links .btn{ padding:10px 20px; font-size:13px; }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{ position:relative; min-height:100dvh; display:flex; align-items:center; overflow:hidden; }
+.hero canvas{ position:absolute; inset:0; width:100%; height:100%; z-index:0; }
+.hero .vig{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:radial-gradient(ellipse 85% 65% at 50% 42%, transparent 40%, color-mix(in srgb, var(--bg) 92%, transparent) 100%);
+}
+.hero-inner{ position:relative; z-index:5; width:100%; padding-top:90px; text-align:center; }
+.hero h1{
+  font-size:clamp(42px, 7.4vw, 104px); line-height:.98; letter-spacing:-.03em; font-weight:600;
+  max-width:16ch; margin:0 auto; text-wrap:balance;
+}
+.hero h1 .lo{ font-weight:300; color:var(--muted); }
+.hero .lede{
+  max-width:52ch; margin:28px auto 0; color:var(--muted); font-size:18px; font-weight:300; line-height:1.7;
+}
+.cta-row{ display:flex; gap:16px; justify-content:center; margin-top:40px; flex-wrap:wrap; }
+.hero-stats{
+  position:relative; z-index:5; margin:76px auto 0; max-width:900px;
+  display:flex; justify-content:center; gap:clamp(20px,5vw,64px); flex-wrap:wrap;
+  padding-bottom:56px; font-size:13px; color:var(--muted); letter-spacing:.02em;
+}
+.hero-stats b{ display:block; color:var(--ink); font-size:22px; font-weight:500; letter-spacing:-.02em; margin-bottom:4px; }
+
+@media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+
+/* ============================================================
+   MARQUEE
+   ============================================================ */
+.marquee{
+  position:relative; z-index:5; overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  padding:22px 0; background:var(--surface);
+}
+.marquee-track{ display:flex; width:max-content; animation:scroll-left 42s linear infinite; }
+.marquee-track span{
+  font-family:'JetBrains Mono',monospace; font-size:14px; letter-spacing:.12em; color:var(--muted);
+  padding:0 34px; white-space:nowrap;
+}
+.marquee-track span::after{ content:'·'; margin-left:34px; color:var(--accent); }
+@keyframes scroll-left{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+@media (prefers-reduced-motion: reduce){ .marquee-track{ animation:none; } }
+
+/* ============================================================
+   SECTION RHYTHM
+   ============================================================ */
+section{ position:relative; z-index:5; padding:clamp(90px,12vw,150px) 0; }
+.reveal{ opacity:0; }
+
+/* split-char heading reveal — each glyph masked and raised individually */
+.char{ display:inline-block; overflow:hidden; vertical-align:top; }
+.char-inner{ display:inline-block; will-change:transform; }
+
+/* magnetic CTA — button nudges toward the cursor within its own bounds */
+.btn.magnetic{ will-change:transform; }
+
+/* MANIFESTO */
+.manifesto{ text-align:center; }
+.manifesto p{
+  font-family:'Petrona',serif; font-style:italic; font-weight:500;
+  font-size:clamp(24px,3.4vw,42px); line-height:1.4; letter-spacing:-.01em;
+  max-width:20ch; margin:0 auto; color:var(--ink); text-wrap:balance;
+}
+
+/* PROCESS — sticky rail + scrolling steps */
+.process-grid{ display:grid; grid-template-columns:.85fr 1.5fr; gap:clamp(32px,6vw,80px); align-items:start; }
+.process-sticky{ position:sticky; top:130px; }
+.process-sticky h2{ font-size:clamp(32px,4.2vw,54px); line-height:1.05; margin-top:14px; }
+.process-sticky-note{ margin-top:30px; font-size:12px; color:var(--muted); letter-spacing:.06em; }
+.process-steps{ border-top:1px solid var(--border); }
+.process-row{ display:flex; gap:26px; padding:42px 0; border-bottom:1px solid var(--border); }
+.process-row .num{ font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:15px; flex:none; width:40px; padding-top:6px; }
+.process-row h3{ font-size:22px; font-weight:500; letter-spacing:-.01em; margin-bottom:10px; }
+.process-row p{ color:var(--muted); font-size:15.5px; line-height:1.7; max-width:52ch; }
+@media (max-width:860px){
+  .process-grid{ grid-template-columns:1fr; }
+  .process-sticky{ position:static; }
+}
+
+/* GALLERY — horizontal pinned scroll */
+.gallery-head{ margin-bottom:56px; }
+.gallery-head h2{ font-size:clamp(30px,3.8vw,46px); line-height:1.08; margin-top:14px; }
+.pan-wrap{ position:relative; height:100vh; overflow:hidden; }
+.gtrack{ position:absolute; top:0; left:0; height:100%; display:flex; align-items:center; gap:28px; padding:0 6vw; width:max-content; will-change:transform; }
+.gcard{ position:relative; flex:none; width:min(58vw,600px); height:68vh; border:1px solid var(--border); overflow:hidden; }
+.gcard img{ width:100%; height:100%; object-fit:cover; filter:saturate(1.06) contrast(1.05) brightness(.93); }
+.gcard figcaption{ position:absolute; left:0; right:0; bottom:0; padding:22px 26px; background:linear-gradient(180deg,transparent,color-mix(in srgb, var(--bg) 92%, transparent) 72%); font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.05em; color:var(--ink); }
+@media (max-width:860px){
+  .pan-wrap{ height:auto; padding:4px 0; }
+  .gtrack{ position:relative; width:auto; overflow-x:auto; scroll-snap-type:x mandatory; padding:0 24px; -webkit-overflow-scrolling:touch; }
+  .gcard{ width:78vw; height:48vh; scroll-snap-align:center; }
+}
+
+/* FIT CHECK — two column comparison */
+.fit-head{ max-width:640px; margin-bottom:56px; }
+.fit-head h2{ font-size:clamp(30px,3.8vw,46px); line-height:1.08; margin-top:14px; }
+.fit-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); }
+.fit-col{ position:relative; background:var(--bg); padding:clamp(28px,4vw,44px); }
+.fit-col.dim{ background:var(--surface); overflow:hidden; }
+.fit-col .wipe{ position:absolute; inset:0; z-index:2; background:var(--bg); pointer-events:none; transform-origin:right center; }
+.fit-col b{ display:block; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:22px; font-family:'JetBrains Mono',monospace; font-weight:400; }
+.fit-col.dim b{ color:var(--muted); }
+.fit-col ul{ list-style:none; display:flex; flex-direction:column; gap:16px; }
+.fit-col li{ font-size:15.5px; line-height:1.7; color:var(--muted); padding-left:20px; position:relative; }
+.fit-col li::before{ content:'—'; position:absolute; left:0; color:var(--dim); }
+@media (max-width:760px){ .fit-grid{ grid-template-columns:1fr; } }
+
+/* NETWORK (split image + copy) */
+.network-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(40px,6vw,90px); align-items:center; }
+.network-img{ position:relative; border-radius:2px; overflow:hidden; border:1px solid var(--border); height:560px; }
+.network-img img{ position:absolute; inset:-15% 0; width:100%; height:130%; object-fit:cover; filter:saturate(1.08) contrast(1.06) brightness(.94); transition:filter .6s; will-change:transform; }
+.network-img:hover img{ filter:saturate(1.16) contrast(1.04) brightness(1); }
+@media (max-width:860px){ .network-img{ height:340px; } }
+.network-img::after{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--bg) 75%, transparent) 100%);
+}
+.network-copy h2{ font-size:clamp(30px,3.8vw,46px); line-height:1.08; margin-bottom:24px; }
+.network-copy p{ color:var(--muted); font-size:16px; line-height:1.8; max-width:46ch; }
+.network-copy p + p{ margin-top:18px; }
+@media (max-width:860px){ .network-grid{ grid-template-columns:1fr; } }
+
+/* RESULTS / DATAVIZ */
+.results-head{ max-width:640px; margin-bottom:60px; }
+.results-head h2{ font-size:clamp(30px,3.8vw,46px); line-height:1.08; margin-top:14px; }
+.bar-row{ display:grid; grid-template-columns:180px 1fr 70px; align-items:center; gap:22px; padding:16px 0; border-bottom:1px solid var(--border); }
+.bar-row .label{ font-size:14.5px; color:var(--ink); }
+.bar-track{ height:8px; background:var(--surface2); border-radius:999px; overflow:hidden; }
+.bar-fill{ height:100%; background:linear-gradient(90deg, var(--accent), var(--accent-hi)); border-radius:999px; width:0; transition:width 1.1s cubic-bezier(.16,1,.3,1); }
+.bar-row .val{ font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--muted); text-align:right; }
+.results-note{ margin-top:26px; font-size:12.5px; color:var(--muted); font-family:'JetBrains Mono',monospace; letter-spacing:.02em; }
+.bar-list{ position:relative; }
+.scan-line{
+  position:absolute; top:-8px; bottom:-8px; left:0%; width:2px; z-index:3; pointer-events:none;
+  background:linear-gradient(180deg, transparent, var(--accent-hi) 45%, var(--accent-hi) 55%, transparent);
+  box-shadow:0 0 26px 3px var(--accent);
+}
+@media (max-width:640px){ .bar-row{ grid-template-columns:100px 1fr 54px; gap:12px; } }
+
+/* TEAM */
+.team-head{ max-width:640px; margin-bottom:60px; }
+.team-head h2{ font-size:clamp(30px,3.8vw,46px); line-height:1.08; margin-top:14px; }
+.team-grid{ display:grid; grid-template-columns:1.4fr 1fr; gap:28px; perspective:1600px; }
+.team-card{ transform-style:preserve-3d; }
+.team-card{ position:relative; border:1px solid var(--border); overflow:hidden; }
+.team-card img{ width:100%; height:420px; object-fit:cover; filter:saturate(1.05) contrast(1.04) brightness(.96); transition:filter .6s; }
+.team-card:hover img{ filter:saturate(1.12) contrast(1.02) brightness(1); }
+.team-card.lead img{ height:520px; }
+.team-card .info{ position:absolute; left:0; right:0; bottom:0; padding:26px; background:linear-gradient(180deg, transparent, color-mix(in srgb, var(--bg) 92%, transparent) 68%); }
+.team-card .info b{ display:block; font-family:'Petrona',serif; font-size:20px; font-weight:600; }
+.team-card .info span{ display:block; font-size:13px; color:var(--muted); margin-top:6px; }
+.team-side{ display:flex; flex-direction:column; gap:28px; }
+@media (max-width:860px){ .team-grid{ grid-template-columns:1fr; } .team-card.lead img{ height:380px; } .team-card img{ height:320px; } }
+
+/* TESTIMONIAL */
+.testimonial{ text-align:center; }
+.testimonial blockquote{
+  font-family:'Petrona',serif; font-style:italic; font-weight:500;
+  font-size:clamp(24px,3.2vw,38px); line-height:1.45; max-width:22ch; margin:0 auto 28px; text-wrap:balance;
+}
+.testimonial cite{ font-style:normal; font-size:14px; color:var(--muted); font-family:'JetBrains Mono',monospace; letter-spacing:.02em; }
+
+/* CTA FINALE */
+.finale{ text-align:center; border-top:1px solid var(--border); }
+.finale h2{ font-size:clamp(40px,7vw,96px); line-height:.96; letter-spacing:-.03em; }
+.finale p{ color:var(--muted); margin:22px 0 40px; font-size:16px; }
+.finale .cta-row{ margin-top:0; }
+
+/* FOOTER */
+footer{ border-top:1px solid var(--border); padding:56px 0 40px; position:relative; z-index:5; }
+.foot-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:32px; }
+.foot-brand .logo{ margin-bottom:14px; }
+.foot-brand p{ color:var(--muted); font-size:13px; max-width:32ch; line-height:1.7; }
+.foot-cols{ display:flex; gap:64px; flex-wrap:wrap; }
+.foot-col b{ display:block; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px; font-family:'JetBrains Mono',monospace; font-weight:400; }
+.foot-col a{ display:block; font-size:14px; color:var(--muted); margin-bottom:11px; transition:color .3s; }
+.foot-col a:hover{ color:var(--ink); }
+.foot-bottom{ margin-top:64px; padding-top:24px; border-top:1px solid var(--border); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted); }
+
+/* ============================================================
+   AMBIENT BACKGROUND — full-page drifting motes + drifting glow
+   ============================================================ */
+#ambient{ position:fixed; inset:0; z-index:0; pointer-events:none; }
+.glow-orb{
+  position:fixed; top:-24%; left:50%; width:min(70vw,900px); height:min(70vw,900px);
+  margin-left:min(-35vw,-450px); z-index:0; pointer-events:none; border-radius:50%;
+  filter:blur(90px); opacity:.15;
+  background:radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  will-change:transform;
+}
+
+/* ============================================================
+   PALETTE SWITCHER
+   ============================================================ */
+.palette-fab{
+  position:fixed; right:24px; bottom:24px; z-index:60; width:52px; height:52px; border-radius:50%;
+  background:var(--surface2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:transform .3s, border-color .3s;
+}
+.palette-fab:hover{ transform:scale(1.06); border-color:var(--border-a); }
+.palette-fab .dot{ width:18px; height:18px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px var(--accent); }
+.palette-panel{
+  position:fixed; right:24px; bottom:86px; z-index:60;
+  background:var(--surface2); border:1px solid var(--border); border-radius:14px;
+  padding:14px 16px; display:flex; align-items:center; gap:10px; backdrop-filter:blur(10px);
+}
+.palette-panel[hidden]{ display:none; }
+.palette-label{ font-size:10px; letter-spacing:.14em; color:var(--muted); margin-right:2px; }
+.swatch{
+  position:relative; width:26px; height:26px; border-radius:50%; background:var(--sw); cursor:pointer;
+  border:2px solid rgba(128,128,128,.35); transition:transform .3s, border-color .3s; padding:0;
+}
+.swatch::after{
+  content:''; position:absolute; right:-2px; bottom:-2px; width:11px; height:11px; border-radius:50%;
+  background:var(--sw-accent); border:1.5px solid rgba(128,128,128,.35);
+}
+.swatch:hover{ transform:scale(1.14); }
+.swatch.active{ border-color:var(--ink); box-shadow:0 0 0 3px var(--bg), 0 0 0 4px var(--ink); }
+@media (max-width:640px){
+  .palette-fab{ right:16px; bottom:16px; }
+  .palette-panel{ right:16px; bottom:76px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="ambient" aria-hidden="true"></canvas>
+<div class="glow-orb" aria-hidden="true"></div>
+
+<nav id="nav">
+  <div class="logo">轨迹 <em>TRAJET</em></div>
+  <div class="nav-links">
+    <a href="#process">方法论</a>
+    <a href="#team">顾问团队</a>
+    <a href="#network">学府网络</a>
+    <a href="#cta" class="btn btn-primary magnetic">预约诊断</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <canvas id="engine" aria-hidden="true"></canvas>
+  <div class="vig"></div>
+  <div class="hero-inner">
+    <h1 class="split-reveal split-onload">申请顶尖学府<br><span class="lo">不该只靠运气</span></h1>
+    <p class="lede">轨迹为每一位申请者绘制独属的战略路径——从定位、叙事到最终决策，每一步都有据可依，而非模板化的"梦校清单"。</p>
+    <div class="cta-row">
+      <a href="#cta" class="btn btn-primary magnetic">预约一对一诊断</a>
+      <a href="#process" class="btn btn-ghost">查看方法论</a>
+    </div>
+  </div>
+  <div class="hero-stats mono">
+    <div><b>9</b>个完整申请季</div>
+    <div><b>11+ 年</b>顾问团队人均海外院校经验</div>
+    <div><b>40 组</b>每期服务家庭上限</div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track mono" id="marqueeTrack">
+    <span>OXFORD</span><span>CAMBRIDGE</span><span>IMPERIAL</span><span>LSE</span><span>UCL</span><span>HARVARD</span><span>MIT</span><span>STANFORD</span><span>YALE</span><span>PRINCETON</span><span>TORONTO</span><span>HKU</span>
+  </div>
+</div>
+
+<section class="manifesto wrap">
+  <p class="split-reveal">我们不批量生产文书。我们先理解一个人，再把这份理解，翻译成招生官读得懂的语言。</p>
+</section>
+
+<section id="process" class="wrap">
+  <div class="process-grid">
+    <div class="process-sticky reveal">
+      <span class="eyebrow">方法论</span>
+      <h2>五个阶段，<br>没有一步是套模板。</h2>
+      <p class="process-sticky-note mono">向下滚动查看完整路径 ↓</p>
+    </div>
+    <div class="process-steps">
+      <div class="process-row reveal">
+        <div class="num">01</div>
+        <div class="body"><h3>定位诊断</h3><p>用真实录取数据反推申请人在目标院校中的稀缺度坐标，而非一份泛泛的"优势劣势"清单。</p></div>
+      </div>
+      <div class="process-row reveal">
+        <div class="num">02</div>
+        <div class="body"><h3>叙事架构</h3><p>从数十小时的深度访谈中提炼一条主线，让文书、活动与面试彼此印证，而不是各说各话。</p></div>
+      </div>
+      <div class="process-row reveal">
+        <div class="num">03</div>
+        <div class="body"><h3>申请打磨</h3><p>逐校定制文书与活动规划，拒绝"一稿多投"的万能模板，每一份材料都对应具体的院校语境。</p></div>
+      </div>
+      <div class="process-row reveal">
+        <div class="num">04</div>
+        <div class="body"><h3>面试推演</h3><p>与具备真实招生背景的顾问进行多轮压力面试，提前暴露问题，而非临场发挥。</p></div>
+      </div>
+      <div class="process-row reveal">
+        <div class="num">05</div>
+        <div class="body"><h3>决策沙盘</h3><p>offer 到手后，用财务模型与职业路径推演辅助最终选择，而非仅凭排名做决定。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery-wrap">
+  <div class="gallery-head wrap reveal">
+    <span class="eyebrow">目标学府</span>
+    <h2>横向滚动，<br>看见几种校园气质。</h2>
+  </div>
+  <div class="pan-wrap">
+    <div class="gtrack" id="gtrack">
+      <figure class="gcard">
+        <img src="images/gallery-us-ivy.jpg" alt="美国东岸校园秋季红砖建筑" loading="lazy">
+        <figcaption>美国东岸 · 常青藤氛围</figcaption>
+      </figure>
+      <figure class="gcard">
+        <img src="images/gallery-uk-gothic.jpg" alt="英国哥特式石造学府建筑" loading="lazy">
+        <figcaption>英伦学府 · 哥特建筑</figcaption>
+      </figure>
+      <figure class="gcard">
+        <img src="images/gallery-library-modern.jpg" alt="现代图书馆内学生在大窗采光下学习" loading="lazy">
+        <figcaption>现代图书馆 · 专注与研讨</figcaption>
+      </figure>
+      <figure class="gcard">
+        <img src="images/gallery-library-historic.jpg" alt="恢弘的历史图书馆书架长廊" loading="lazy">
+        <figcaption>历史图书馆 · 学术传承</figcaption>
+      </figure>
+      <figure class="gcard">
+        <img src="images/gallery-asia.jpg" alt="亚太校园的传统建筑长廊" loading="lazy">
+        <figcaption>亚太校园 · 东西融合</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="network" class="wrap">
+  <div class="network-grid">
+    <div class="network-img">
+      <img src="images/campus-heritage.jpg" alt="欧洲一所大学的哥特式石造建筑，代表轨迹合作网络中的历史学府" loading="lazy">
+    </div>
+    <div class="network-copy reveal">
+      <span class="eyebrow">学府网络</span>
+      <h2>顾问团队走过的路，<br>比你即将走的更远。</h2>
+      <p>轨迹的顾问团队来自牛津、宾大、多伦多大学的招生与教育行研背景，深度理解每所目标院校在不同申请季的偏好变化。</p>
+      <p>我们不追求覆盖所有学校，只专注少数真正了解、也真正能帮到申请人的院校集群。</p>
+    </div>
+  </div>
+</section>
+
+<section id="fit" class="wrap">
+  <div class="fit-head">
+    <span class="eyebrow">谁适合轨迹</span>
+    <h2 class="split-reveal">不是每一位申请人，<br>都需要我们。</h2>
+  </div>
+  <div class="fit-grid">
+    <div class="fit-col reveal">
+      <b>适合</b>
+      <ul>
+        <li>愿意投入时间做深度自我梳理，而不是只要一份文书</li>
+        <li>目标院校集中在轨迹擅长的院校集群</li>
+        <li>希望申请策略与长期职业 / 学术规划相互印证</li>
+      </ul>
+    </div>
+    <div class="fit-col dim reveal">
+      <div class="wipe" aria-hidden="true"></div>
+      <b>暂不适合</b>
+      <ul>
+        <li>只希望批量海投、追求数量而非匹配度</li>
+        <li>距离截止日期不足 6 周、无法完成深度访谈</li>
+        <li>期望"保录取"承诺——我们不做这类承诺</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="results-head">
+    <span class="eyebrow">案例分布</span>
+    <h2 class="split-reveal">近九个申请季，<br>我们把精力放在哪里。</h2>
+  </div>
+  <div class="bar-list" id="barList">
+    <div class="scan-line" aria-hidden="true"></div>
+    <div class="bar-row reveal">
+      <div class="label">英国 · G5 及同级</div>
+      <div class="bar-track"><div class="bar-fill" data-w="38"></div></div>
+      <div class="val">38%</div>
+    </div>
+    <div class="bar-row reveal">
+      <div class="label">美国 · Top 30</div>
+      <div class="bar-track"><div class="bar-fill" data-w="34"></div></div>
+      <div class="val">34%</div>
+    </div>
+    <div class="bar-row reveal">
+      <div class="label">中国港 / 新加坡</div>
+      <div class="bar-track"><div class="bar-fill" data-w="18"></div></div>
+      <div class="val">18%</div>
+    </div>
+    <div class="bar-row reveal">
+      <div class="label">其他地区</div>
+      <div class="bar-track"><div class="bar-fill" data-w="10"></div></div>
+      <div class="val">10%</div>
+    </div>
+  </div>
+  <p class="results-note">数据来源：轨迹内部案例库，2016–2025，按目标院校地区统计的服务案例占比，仅反映历史服务分布，不构成录取承诺。</p>
+</section>
+
+<section id="team" class="wrap">
+  <div class="team-head">
+    <span class="eyebrow">顾问团队</span>
+    <h2 class="split-reveal">三位主理顾问，<br>各自专精一个方向。</h2>
+  </div>
+  <div class="team-grid">
+    <div class="team-card lead">
+      <img src="images/advisor-chen.jpg" alt="顾问陈廷肖像照" loading="lazy">
+      <div class="info"><b>陈廷 · 主理顾问</b><span>英美方向 · 曾任教育行研分析师，专注申请叙事架构</span></div>
+    </div>
+    <div class="team-side">
+      <div class="team-card">
+        <img src="images/advisor-lin.jpg" alt="顾问林薇肖像照" loading="lazy">
+        <div class="info"><b>林薇</b><span>英国方向 · 面试推演与文书打磨</span></div>
+      </div>
+      <div class="team-card">
+        <img src="images/advisor-zhou.jpg" alt="顾问周景行肖像照" loading="lazy">
+        <div class="info"><b>周景行</b><span>港新方向 · 财务与职业路径决策模型</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonial wrap">
+  <blockquote class="reveal">"第一次有人告诉我们，孩子的申请不该是一份清单，而是一段值得被讲清楚的经历。"</blockquote>
+  <cite>—— L. 同学 家长 · 现就读于帝国理工学院</cite>
+</section>
+
+<section id="cta" class="finale wrap">
+  <h2 class="split-reveal">先了解，<br>再决定。</h2>
+  <p>每期服务席位有限，我们更希望在合适的时机遇见合适的申请人。</p>
+  <div class="cta-row">
+    <a href="mailto:hello@trajet-edu.com" class="btn btn-primary magnetic">预约一对一诊断</a>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="logo">轨迹 <em>TRAJET</em></div>
+      <p>全球升学与教育战略顾问。用真实数据与个体叙事，设计属于每个人的升学路径。</p>
+    </div>
+    <div class="foot-cols">
+      <div class="foot-col">
+        <b>导览</b>
+        <a href="#process">方法论</a>
+        <a href="#network">学府网络</a>
+        <a href="#team">顾问团队</a>
+      </div>
+      <div class="foot-col">
+        <b>联系</b>
+        <a href="mailto:hello@trajet-edu.com">hello@trajet-edu.com</a>
+        <a href="#cta">预约诊断</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 TRAJET 轨迹教育战略顾问</span>
+    <span>本站图片来自 Unsplash，团队肖像为示意用图</span>
+  </div>
+</footer>
+
+<button id="paletteToggle" class="palette-fab" aria-label="切换配色" aria-expanded="false" aria-controls="palettePanel">
+  <span class="dot"></span>
+</button>
+<div id="palettePanel" class="palette-panel" hidden>
+  <span class="palette-label mono">配色</span>
+  <button class="swatch active" data-key="ivory" style="--sw:#F8F6F2; --sw-accent:#A8331F" aria-label="浅色 · 象牙白 ivory"></button>
+  <button class="swatch" data-key="platinum" style="--sw:#F0F0EE; --sw-accent:#2D5A3D" aria-label="浅色 · 铂金灰 platinum"></button>
+  <button class="swatch" data-key="brass" style="--sw:#150F08; --sw-accent:#C9A227" aria-label="暗色 · 金棕 brass"></button>
+  <button class="swatch" data-key="sapphire" style="--sw:#0A1330; --sw-accent:#5B84E0" aria-label="暗色 · 靛蓝 sapphire"></button>
+  <button class="swatch" data-key="wine" style="--sw:#2A0B15; --sw-accent:#E0577A" aria-label="暗色 · 酒红 wine"></button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+/* ---- nav blur on scroll ---- */
+const nav = document.getElementById('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 8), { passive:true });
+
+/* ---- marquee: duplicate track for seamless loop ---- */
+const track = document.getElementById('marqueeTrack');
+track.insertAdjacentHTML('beforeend', track.innerHTML);
+
+/* ---- reduced motion gate ---- */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- palette switcher — one accent, swappable, drives CSS + both canvas engines ---- */
+function hexToRgb(hex) {
+  const h = hex.replace('#', '');
+  const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+/* Each key is a full coordinated theme — bg, surface, ink and accent all
+   move together. Three dark jewel-tones + two genuinely LIGHT registers
+   (design-dna.md's "Editorial light" / "Quiet luxury light" families),
+   not five shades of the same near-black. */
+const PALETTES = {
+  brass:    { bg:'#150F08', surface:'#201808', surface2:'#2D2210', ink:'#F2ECDD', muted:'#A69A7C', dim:'#4A4436', accent:'#C9A227', hi:'#E8C870', onAccent:'#171106' },
+  sapphire: { bg:'#0A1330', surface:'#111C42', surface2:'#192856', ink:'#EAEEFB', muted:'#8FA0D0', dim:'#3C4C7E', accent:'#5B84E0', hi:'#94B4F2', onAccent:'#0A1330' },
+  wine:     { bg:'#2A0B15', surface:'#3A1220', surface2:'#4A1A2A', ink:'#FBEBEE', muted:'#D19BA8', dim:'#7A3548', accent:'#E0577A', hi:'#F296AE', onAccent:'#2A0B15' },
+  ivory:    { bg:'#F8F6F2', surface:'#F1EDE4', surface2:'#E9E2D4', ink:'#211C16', muted:'#6E6459', dim:'#D9D0BF', accent:'#A8331F', hi:'#C4472F', onAccent:'#F8F6F2' },
+  platinum: { bg:'#F0F0EE', surface:'#E7E7E3', surface2:'#DEDED8', ink:'#161715', muted:'#63665F', dim:'#CACAC3', accent:'#2D5A3D', hi:'#457857', onAccent:'#F0F0EE' },
+};
+window.__pal = { rgb: hexToRgb(PALETTES.ivory.accent), hiRgb: hexToRgb(PALETTES.ivory.hi), inkRgb: hexToRgb(PALETTES.ivory.ink) };
+function applyPalette(key, redrawStatic) {
+  const p = PALETTES[key]; if (!p) return;
+  const root = document.documentElement.style;
+  root.setProperty('--bg', p.bg);
+  root.setProperty('--surface', p.surface);
+  root.setProperty('--surface2', p.surface2);
+  root.setProperty('--ink', p.ink);
+  root.setProperty('--muted', p.muted);
+  root.setProperty('--dim', p.dim);
+  root.setProperty('--accent', p.accent);
+  root.setProperty('--accent-hi', p.hi);
+  root.setProperty('--on-accent', p.onAccent);
+  root.setProperty('--border', `rgba(${hexToRgb(p.ink).join(',')},.09)`);
+  root.setProperty('--border-a', `rgba(${hexToRgb(p.accent).join(',')},.28)`);
+  window.__pal = { rgb: hexToRgb(p.accent), hiRgb: hexToRgb(p.hi), inkRgb: hexToRgb(p.ink) };
+  document.querySelectorAll('.swatch').forEach(s => s.classList.toggle('active', s.dataset.key === key));
+  if (redrawStatic) redrawStatic();
+}
+const paletteFab = document.getElementById('paletteToggle');
+const palettePanel = document.getElementById('palettePanel');
+if (paletteFab && palettePanel) {
+  paletteFab.addEventListener('click', () => {
+    const willOpen = palettePanel.hasAttribute('hidden');
+    if (willOpen) palettePanel.removeAttribute('hidden'); else palettePanel.setAttribute('hidden', '');
+    paletteFab.setAttribute('aria-expanded', String(willOpen));
+  });
+  document.querySelectorAll('.swatch').forEach(btn => {
+    btn.addEventListener('click', () => applyPalette(btn.dataset.key, window.__redrawEngine));
+  });
+}
+
+/* ---- split-char heading reveal — wraps each glyph so it can rise on its own.
+   Recurses into nested tags (e.g. hero h1's <span class="lo">) instead of
+   cloning them whole, so every line of a multi-line heading gets the effect. */
+function splitChars(el) {
+  Array.from(el.childNodes).forEach((node) => {
+    if (node.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      [...node.textContent].forEach((ch) => {
+        const outer = document.createElement('span');
+        outer.className = 'char';
+        const inner = document.createElement('span');
+        inner.className = 'char-inner';
+        inner.textContent = ch === ' ' ? ' ' : ch;
+        outer.appendChild(inner);
+        frag.appendChild(outer);
+      });
+      node.replaceWith(frag);
+    } else if (node.nodeType === 1 && node.tagName !== 'BR') {
+      splitChars(node);
+    }
+  });
+}
+document.querySelectorAll('.split-reveal').forEach((el) => splitChars(el));
+
+/* ---- GSAP reveal stagger ---- */
+if (window.gsap) {
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.utils.toArray('.reveal').forEach((el) => {
+    if (reduce) { el.style.opacity = 1; return; }
+    gsap.fromTo(el, { opacity:0, y:28 }, {
+      opacity:1, y:0, duration:.8, ease:'power3.out',
+      scrollTrigger:{ trigger:el, start:'top 85%', once:true }
+    });
+  });
+
+  /* ---- split-char headings: rise in, one glyph at a time ---- */
+  document.querySelectorAll('.split-reveal').forEach((el) => {
+    const chars = el.querySelectorAll('.char-inner');
+    if (reduce) { chars.forEach((c) => (c.style.transform = 'none')); return; }
+    const tween = { yPercent: 0, rotate: 0, duration: .9, ease: 'power4.out', stagger: 0.016 };
+    if (el.classList.contains('split-onload')) {
+      gsap.fromTo(chars, { yPercent: 130, rotate: 6 }, { ...tween, delay: .15 });
+    } else {
+      gsap.fromTo(chars, { yPercent: 130, rotate: 6 }, {
+        ...tween, scrollTrigger: { trigger: el, start: 'top 85%', once: true }
+      });
+    }
+  });
+
+  /* ---- magnetic CTAs — nudge toward the cursor, spring back on leave ---- */
+  document.querySelectorAll('.btn.magnetic').forEach((btn) => {
+    if (reduce) return;
+    const moveX = gsap.quickTo(btn, 'x', { duration: .5, ease: 'power3.out' });
+    const moveY = gsap.quickTo(btn, 'y', { duration: .5, ease: 'power3.out' });
+    btn.addEventListener('pointermove', (e) => {
+      const r = btn.getBoundingClientRect();
+      moveX((e.clientX - r.left - r.width / 2) * 0.35);
+      moveY((e.clientY - r.top - r.height / 2) * 0.35);
+    });
+    btn.addEventListener('pointerleave', () => { moveX(0); moveY(0); });
+  });
+  gsap.utils.toArray('.bar-fill').forEach((el) => {
+    ScrollTrigger.create({
+      trigger: el, start:'top 90%', once:true,
+      onEnter: () => { el.style.width = el.dataset.w + '%'; }
+    });
+  });
+
+  /* ---- horizontal pinned gallery (Engine D pattern) + per-card fly-in ---- */
+  const gtrack = document.getElementById('gtrack');
+  if (gtrack && !reduce && innerWidth > 860) {
+    const getDistance = () => gtrack.scrollWidth - innerWidth;
+    const panTween = gsap.to(gtrack, {
+      x: () => -getDistance(), ease: 'none',
+      scrollTrigger: {
+        trigger: '.pan-wrap', start: 'top top',
+        end: () => `+=${getDistance()}`,
+        pin: true, scrub: 1, invalidateOnRefresh: true
+      }
+    });
+    gsap.utils.toArray('.gcard').forEach((card, i) => {
+      gsap.fromTo(card, { autoAlpha: 0, y: 90, rotate: i % 2 ? 3 : -3, scale: .9 }, {
+        autoAlpha: 1, y: 0, rotate: 0, scale: 1, ease: 'power3.out',
+        scrollTrigger: {
+          containerAnimation: panTween.scrollTrigger.animation,
+          trigger: card, start: 'left 92%', end: 'left 55%', scrub: 0.6
+        }
+      });
+    });
+  }
+
+  /* ---- network photo — pronounced fly-up entrance + scroll parallax ---- */
+  const networkImg = document.querySelector('.network-img img');
+  if (networkImg && !reduce) {
+    gsap.fromTo('.network-img', { autoAlpha: 0, y: 100, rotate: -2, scale: .94 }, {
+      autoAlpha: 1, y: 0, rotate: 0, scale: 1, duration: 1.1, ease: 'power3.out',
+      scrollTrigger: { trigger: '.network-img', start: 'top 85%', once: true }
+    });
+    gsap.fromTo(networkImg, { yPercent: -8 }, {
+      yPercent: 8, ease: 'none',
+      scrollTrigger: { trigger: '.network-grid', start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+  }
+
+  /* ---- team cards — 3D tilt fly-in ---- */
+  gsap.utils.toArray('.team-card').forEach((card, i) => {
+    gsap.fromTo(card, { autoAlpha: 0, y: 90, rotateX: 14, scale: .93 }, {
+      autoAlpha: 1, y: 0, rotateX: 0, scale: 1, duration: 1, delay: i * 0.08, ease: 'power3.out',
+      scrollTrigger: { trigger: card, start: 'top 88%', once: true }
+    });
+  });
+
+  /* ---- fit section — curtain wipe reveals "暂不适合" column mid-scroll ---- */
+  const wipe = document.querySelector('.fit-col.dim .wipe');
+  if (wipe) {
+    gsap.fromTo(wipe, { scaleX: 1 }, {
+      scaleX: 0, ease: 'none', transformOrigin: 'right center',
+      scrollTrigger: { trigger: '#fit', start: 'top 65%', end: 'top 15%', scrub: true }
+    });
+  }
+
+  /* ---- results — accent scan-line sweeps across the bar chart mid-scroll ---- */
+  const scanLine = document.querySelector('.scan-line');
+  if (scanLine) {
+    gsap.fromTo(scanLine, { left: '0%' }, {
+      left: '100%', ease: 'none',
+      scrollTrigger: { trigger: '#barList', start: 'top 85%', end: 'bottom 55%', scrub: true }
+    });
+  }
+
+  /* ---- ambient glow drifts down + sways sideways with total scroll progress ---- */
+  const glow = document.querySelector('.glow-orb');
+  if (glow && !reduce) {
+    ScrollTrigger.create({
+      trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.6,
+      onUpdate(self) {
+        const travel = document.documentElement.scrollHeight - innerHeight;
+        gsap.set(glow, { y: self.progress * travel * 0.92, x: Math.sin(self.progress * Math.PI * 3) * 70 });
+      }
+    });
+  }
+} else {
+  document.querySelectorAll('.reveal').forEach(el => el.style.opacity = 1);
+}
+
+/* ---- count-up on hero stats ---- */
+if (!reduce) {
+  const statsEl = document.querySelector('.hero-stats');
+  if (statsEl) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.querySelectorAll('b').forEach((el) => {
+          const m = el.textContent.trim().match(/^(\d+)(.*)$/);
+          if (!m) return;
+          const target = parseInt(m[1], 10), suffix = m[2];
+          const start = performance.now(), dur = 1100;
+          function step(t) {
+            const p = Math.min((t - start) / dur, 1);
+            el.textContent = Math.floor(p * target) + suffix;
+            if (p < 1) requestAnimationFrame(step);
+            else el.textContent = target + suffix;
+          }
+          requestAnimationFrame(step);
+        });
+        io.unobserve(entry.target);
+      });
+    }, { threshold: .4 });
+    io.observe(statsEl);
+  }
+}
+
+/* ---- HERO ENGINE — Canvas 2D global admission network ----
+   Abstract constellation: one origin node radiating arcs to
+   a ring of named top universities, traveling light pulses
+   represent placements in motion. Progressive enhancement:
+   page reads complete with the canvas removed. */
+(function () {
+  const canvas = document.getElementById('engine');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const DPR = Math.min(devicePixelRatio || 1, 2);
+  const NAMES = ['OXFORD','CAMBRIDGE','IMPERIAL','LSE','UCL','HARVARD','MIT','STANFORD','YALE','PRINCETON','TORONTO','HKU'];
+  const nodes = NAMES.map((name, i) => ({ name, baseAngle: (i / NAMES.length) * Math.PI * 2 }));
+  let W, H, cx, cy, rot = 0, mx = 0, my = 0, tx = 0, ty = 0;
+
+  function resize() {
+    const parent = canvas.parentElement;
+    W = parent.clientWidth; H = parent.clientHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    cx = W / 2; cy = H * 0.5;
+  }
+  resize();
+  addEventListener('resize', resize);
+  addEventListener('pointermove', (e) => {
+    const r = canvas.getBoundingClientRect();
+    tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+    ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+  }, { passive:true });
+
+  function frame(t) {
+    mx += (tx - mx) * 0.04; my += (ty - my) * 0.04;
+    ctx.clearRect(0, 0, W, H);
+    const R = Math.min(W, H) * 0.34;
+    const ox = cx + mx * 14, oy = cy + my * 10;
+    const rgb = window.__pal.rgb, hi = window.__pal.hiRgb, ink = window.__pal.inkRgb;
+    if (!reduce) rot = t * 0.00006;
+
+    ctx.beginPath(); ctx.arc(ox, oy, 5, 0, Math.PI * 2);
+    ctx.shadowBlur = 20; ctx.shadowColor = `rgba(${rgb.join(',')},0.8)`;
+    ctx.fillStyle = `rgba(${hi.join(',')},0.9)`; ctx.fill(); ctx.shadowBlur = 0;
+
+    nodes.forEach((n, i) => {
+      const a = n.baseAngle + rot;
+      const nx = ox + Math.cos(a) * R;
+      const ny = oy + Math.sin(a) * R * 0.6;
+      const midx = (ox + nx) / 2 + Math.cos(a + Math.PI / 2) * R * 0.12;
+      const midy = (oy + ny) / 2 + Math.sin(a + Math.PI / 2) * R * 0.12 * 0.6;
+
+      ctx.beginPath(); ctx.moveTo(ox, oy);
+      ctx.quadraticCurveTo(midx, midy, nx, ny);
+      ctx.strokeStyle = `rgba(${ink.join(',')},0.14)`; ctx.lineWidth = 1; ctx.stroke();
+
+      if (!reduce) {
+        const p = (t * 0.00035 + i * 0.37) % 1;
+        const px = (1 - p) * (1 - p) * ox + 2 * (1 - p) * p * midx + p * p * nx;
+        const py = (1 - p) * (1 - p) * oy + 2 * (1 - p) * p * midy + p * p * ny;
+        ctx.beginPath(); ctx.arc(px, py, 1.6, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${hi.join(',')},${0.15 + 0.55 * Math.sin(p * Math.PI)})`;
+        ctx.shadowBlur = 8; ctx.shadowColor = `rgba(${rgb.join(',')},0.7)`; ctx.fill(); ctx.shadowBlur = 0;
+      }
+
+      ctx.beginPath(); ctx.arc(nx, ny, 3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${ink.join(',')},0.8)`; ctx.fill();
+
+      if (W > 760) {
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = `rgba(${ink.join(',')},0.5)`;
+        ctx.textAlign = Math.cos(a) > 0 ? 'left' : 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(n.name, nx + Math.cos(a) * 14, ny);
+      }
+    });
+
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  window.__redrawEngine = reduce ? () => frame(performance.now()) : null;
+})();
+
+/* ---- AMBIENT ENGINE — soft drifting brass motes behind every section ----
+   Decorative-only continuation of the hero's spectacle; hidden entirely
+   under prefers-reduced-motion rather than half-animated. */
+(function () {
+  if (reduce) return;
+  const canvas = document.getElementById('ambient');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const DPR = Math.min(devicePixelRatio || 1, 2);
+  let W, H, P;
+
+  function seed() {
+    const n = innerWidth < 760 ? 20 : 40;
+    P = Array.from({ length: n }, () => ({
+      x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.5 + .4,
+      vy: -(Math.random() * .1 + .025), vx: (Math.random() - .5) * .04, a: Math.random() * .4 + .12
+    }));
+  }
+  function resize() {
+    W = innerWidth; H = innerHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    seed();
+  }
+  resize();
+  addEventListener('resize', resize);
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const rgb = window.__pal.hiRgb;
+    P.forEach((p) => {
+      p.y += p.vy; p.x += p.vx;
+      if (p.y < -8) { p.y = H + 8; p.x = Math.random() * W; }
+      if (p.x < -8) p.x = W + 8; if (p.x > W + 8) p.x = -8;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.shadowBlur = 5; ctx.shadowColor = `rgba(${rgb.join(',')},0.5)`;
+      ctx.fillStyle = `rgba(${rgb.join(',')},${p.a * 0.55})`;
+      ctx.fill();
+    });
+    ctx.shadowBlur = 0;
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
