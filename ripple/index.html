@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SUIREN 睡莲 — 静水浴礼 / Still-Water Ritual</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Inter:wght@300;400;500&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --deep:#062229; --deep2:#0a2e36; --foam:#eef6f4; --ink:#0a2229; --dim:#5d7b80;
+  --jade:#86c9bb; --line:rgba(10,34,41,.12);
+}
+html{scroll-behavior:smooth}
+body{background:var(--deep);color:var(--foam);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.jost{font-family:'Jost',sans-serif}
+::selection{background:var(--jade);color:var(--deep)}
+
+/* ripple hero */
+.hero{position:relative;height:100vh;overflow:hidden}
+#water{position:absolute;inset:0;width:100%;height:100%;display:block;image-rendering:auto}
+.hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,34,41,.32),rgba(6,34,41,.06) 40%,rgba(6,34,41,.5));pointer-events:none}
+.hero .content{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;justify-content:center;padding:0 56px;pointer-events:none}
+.hero .kick{font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--jade);margin-bottom:28px}
+.hero h1{font-family:'Jost';font-weight:300;font-size:clamp(56px,9vw,140px);line-height:.98;letter-spacing:.02em}
+.hero h1 b{font-weight:500}
+.hero .lead{font-family:'Jost';font-weight:300;font-size:clamp(17px,2vw,24px);color:rgba(238,246,244,.82);margin-top:26px;letter-spacing:.04em}
+.hint{position:absolute;bottom:40px;left:56px;z-index:3;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:rgba(238,246,244,.6);display:flex;align-items:center;gap:12px}
+.hint .dot{width:8px;height:8px;border-radius:50%;background:var(--jade);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.6);opacity:1}}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:24px 56px}
+nav .logo{font-family:'Jost';font-weight:400;letter-spacing:.3em;font-size:18px}
+nav .links{display:flex;gap:34px}
+nav .links a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(238,246,244,.78);text-decoration:none}
+nav .links a:hover{color:var(--jade)}
+
+/* light body sections */
+.sheet{background:var(--foam);color:var(--ink)}
+.stmt{padding:170px 56px;max-width:1100px;margin:0 auto}
+.stmt .label{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--jade);margin-bottom:36px}
+.stmt p{font-family:'Jost';font-weight:300;font-size:clamp(28px,4vw,58px);line-height:1.2;letter-spacing:.005em}
+.stmt p em{font-style:italic;color:#2b6b66}
+
+.ritual{padding:60px 56px 170px;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:50px}
+.step{border-top:1px solid var(--line);padding-top:26px}
+.step .n{font-family:'Jost';font-weight:300;font-size:42px;color:var(--jade)}
+.step h3{font-family:'Jost';font-weight:400;font-size:24px;margin:14px 0 12px}
+.step p{font-size:14px;line-height:1.85;color:var(--dim)}
+
+/* spring band — deep */
+.spring{background:linear-gradient(160deg,rgba(10,46,54,.8),rgba(6,34,41,.93)),url('images/spring.jpg') center/cover fixed;padding:150px 56px;text-align:center;position:relative;overflow:hidden}
+.spring .ring{position:absolute;width:140vw;height:140vw;left:50%;top:50%;transform:translate(-50%,-50%);
+  border:1px solid rgba(134,201,187,.10);border-radius:50%}
+.spring .ring.r2{width:100vw;height:100vw;border-color:rgba(134,201,187,.14)}
+.spring .ring.r3{width:60vw;height:60vw;border-color:rgba(134,201,187,.18)}
+.spring h2{position:relative;font-family:'Jost';font-weight:300;font-size:clamp(34px,5vw,76px);line-height:1.12;letter-spacing:.01em}
+.spring h2 b{font-weight:500;color:var(--jade)}
+.spring .sub{position:relative;color:rgba(238,246,244,.7);font-size:15px;line-height:1.8;max-width:520px;margin:30px auto 0}
+
+/* finale */
+.book{background:var(--foam);color:var(--ink);padding:160px 56px 70px;text-align:center}
+.book h2{font-family:'Jost';font-weight:300;font-size:clamp(40px,7vw,110px);line-height:1;letter-spacing:.01em}
+.book h2 em{font-style:italic;color:#2b6b66}
+.book .cta{margin-top:38px;display:inline-flex;align-items:center;gap:12px;background:var(--deep);color:var(--foam);
+  text-decoration:none;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:17px 42px;border-radius:40px;transition:.25s}
+.book .cta:hover{background:#2b6b66}
+.book footer{margin-top:100px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:11px;letter-spacing:.18em;color:var(--dim);border-top:1px solid var(--line);padding-top:20px}
+
+.reveal{opacity:0;transform:translateY(36px)}
+@media(max-width:820px){
+  nav,.hero .content,.hint{padding-left:24px;padding-right:24px}.hint{left:24px}
+  .stmt,.ritual,.spring,.book{padding-left:24px;padding-right:24px}
+  .ritual{grid-template-columns:1fr;gap:36px}nav .links{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">睡莲 SUIREN</div>
+  <div class="links"><a href="#ritual">RITUAL</a><a href="#spring">SOURCE</a><a href="#book">BOOK</a></div>
+</nav>
+
+<!-- HERO: interactive water -->
+<section class="hero">
+  <canvas id="water"></canvas>
+  <div class="veil"></div>
+  <div class="content">
+    <div class="kick">STILL-WATER RITUAL · 静水浴礼</div>
+    <h1 class="jost">让水，<b>记得</b>你。</h1>
+    <p class="lead">一池温泉的安静，从指尖触碰水面的那一圈涟漪开始。</p>
+  </div>
+  <div class="hint"><span class="dot"></span> 触摸水面 · MOVE ACROSS THE WATER</div>
+</section>
+
+<!-- STATEMENT -->
+<section class="sheet">
+  <div class="stmt">
+    <div class="label">PHILOSOPHY · 我们的浴礼</div>
+    <p class="reveal">我们不贩卖香气，也不堆叠功效。我们只把你<em>放回水里</em>——让体温、呼吸与水面，重新同步。</p>
+  </div>
+
+  <!-- RITUAL -->
+  <div class="ritual" id="ritual">
+    <div class="step reveal"><div class="n jost">壱</div><h3 class="jost">入 · 静心</h3><p>水温四十一度。先不要动，让皮肤适应，让一天的紧绷慢慢松开。</p></div>
+    <div class="step reveal"><div class="n jost">弐</div><h3 class="jost">浸 · 同频</h3><p>呼吸放慢到水的节奏。一吸，一呼，像水面起伏，不急着去任何地方。</p></div>
+    <div class="step reveal"><div class="n jost">参</div><h3 class="jost">出 · 留白</h3><p>离水后留十分钟给自己。不看手机，让身体记住这份温热与安静。</p></div>
+  </div>
+</section>
+
+<!-- PLACE BAND -->
+<section style="height:64vh;background:linear-gradient(rgba(6,34,41,.22),rgba(6,34,41,.5)),url('images/town.jpg') center/cover;display:flex;align-items:flex-end">
+  <div style="padding:44px 56px">
+    <div style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--jade);margin-bottom:12px">THE PLACE · 山中</div>
+    <div class="jost" style="font-weight:300;font-size:clamp(26px,3.4vw,46px);line-height:1.1;color:var(--foam)">雪落下来的时候，<br>水还是温的。</div>
+  </div>
+</section>
+
+<!-- SPRING -->
+<section class="spring" id="spring">
+  <div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div>
+  <h2 class="jost">同一眼泉，<br><b>流了八百年</b>。</h2>
+  <p class="sub">我们的水取自深山自涌温泉，富含偏硅酸与碳酸氢盐。不加热、不循环，只让它顺着地势，安静地流进每一池。</p>
+</section>
+
+<!-- BOOK -->
+<section class="book" id="book">
+  <h2 class="jost">回到<br><em>水里</em></h2>
+  <a href="#" class="cta">预约一次浴礼</a>
+  <footer>
+    <span>睡莲 SUIREN · STILL-WATER RITUAL</span><span>箱根 · 京都</span><span>© 2026</span>
+  </footer>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- Canvas water-ripple height-field over a generated teal surface ---- */
+(function(){
+  const cv=document.getElementById('water'), ctx=cv.getContext('2d');
+  let SW,SH, cur,prev, src, dst, damping=0.962;
+  function build(){
+    const vw=innerWidth, vh=innerHeight;
+    const scale = Math.min(1, 520/vw);              // sim resolution cap for perf
+    SW=Math.max(2,Math.round(vw*scale)); SH=Math.max(2,Math.round(vh*scale));
+    cv.width=SW; cv.height=SH; cv.style.width=vw+'px'; cv.style.height=vh+'px';
+    cur=new Float32Array(SW*SH); prev=new Float32Array(SW*SH);
+    // build source surface: vertical teal gradient + soft horizontal light bands
+    src=ctx.createImageData(SW,SH); dst=ctx.createImageData(SW,SH);
+    for(let y=0;y<SH;y++){
+      const t=y/SH;
+      let r=6+t*8, g=34+t*40, b=41+t*46;                 // deep teal -> lighter
+      const band=Math.sin(t*22)*Math.sin(t*7+1)*10;       // caustic-ish light
+      for(let x=0;x<SW;x++){
+        const wobble=Math.sin((x/SW)*9 + t*6)*6;
+        const i=(y*SW+x)*4;
+        src.data[i]=r+band*0.3; src.data[i+1]=g+band+wobble*0.4; src.data[i+2]=b+band+wobble; src.data[i+3]=255;
+      }
+    }
+  }
+  build(); addEventListener('resize',build);
+  function drop(px,py,strength){
+    const x=Math.round(px/innerWidth*SW), y=Math.round(py/innerHeight*SH);
+    const rad=2;
+    for(let j=-rad;j<=rad;j++)for(let k=-rad;k<=rad;k++){
+      const xx=x+k, yy=y+j; if(xx<1||yy<1||xx>=SW-1||yy>=SH-1)continue;
+      prev[yy*SW+xx]+=strength;
+    }
+  }
+  let lx=0,ly=0;
+  addEventListener('pointermove',e=>{ const d=Math.hypot(e.clientX-lx,e.clientY-ly); drop(e.clientX,e.clientY,Math.min(420,40+d*14)); lx=e.clientX; ly=e.clientY; });
+  addEventListener('pointerdown',e=>drop(e.clientX,e.clientY,900));
+  function step(){
+    // propagate height field
+    for(let y=1;y<SH-1;y++){
+      for(let x=1;x<SW-1;x++){
+        const i=y*SW+x;
+        let v=((prev[i-1]+prev[i+1]+prev[i-SW]+prev[i+SW])*0.5)-cur[i];
+        v*=damping; cur[i]=v;
+      }
+    }
+    // render with refraction offset
+    const s=src.data, d=dst.data;
+    for(let y=1;y<SH-1;y++){
+      for(let x=1;x<SW-1;x++){
+        const i=y*SW+x;
+        const xo=(cur[i-1]-cur[i+1]);
+        const yo=(cur[i-SW]-cur[i+SW]);
+        let sx=x+(xo|0), sy=y+(yo|0);
+        if(sx<0)sx=0; else if(sx>=SW)sx=SW-1;
+        if(sy<0)sy=0; else if(sy>=SH)sy=SH-1;
+        const si=(sy*SW+sx)*4, di=i*4;
+        const sh=(xo+yo); // specular highlight from slope
+        d[di]=s[si]+sh; d[di+1]=s[si+1]+sh; d[di+2]=s[si+2]+sh*1.4; d[di+3]=255;
+      }
+    }
+    ctx.putImageData(dst,0,0);
+    const t=prev; prev=cur; cur=t;       // swap buffers
+    raf=requestAnimationFrame(step);
+  }
+  let raf;
+  if(reduce){ ctx.putImageData(src,0,0); }
+  else {
+    // idle ambient drops so the surface is never dead
+    setInterval(()=>{ if(document.hidden)return; drop(Math.random()*innerWidth, Math.random()*innerHeight*0.7, 220); }, 1400);
+    step();
+  }
+})();
+
+/* reveals */
+if(window.gsap){
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.utils.toArray('.reveal').forEach(el=>gsap.to(el,{opacity:1,y:0,duration:1.1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}}));
+  if(!reduce){
+    gsap.to('.spring .ring',{scale:1.12,duration:7,ease:'sine.inOut',yoyo:true,repeat:-1,stagger:0.4});
+  }
+}
+</script>
+</body>
+</html>
